@@ -6,6 +6,11 @@ class SoundMode(Enum):
     DARK = 1
     OBJ_LOST = 2
 
+class DriveMode(Enum):
+    STRIGHT = 0
+    TURN_LEFT = 1
+    TURN_RIGHT = 2
+
 hamster = HamsterS()
 
 proximity_threshold = 15
@@ -13,6 +18,7 @@ target_proximity = 40
 weight = 10
 last_mode = SoundMode.NULL
 prev_floor = [0, 0]
+drive_mode = DriveMode.STRIGHT
 
 def sound(mode):
     global last_mode
@@ -58,9 +64,19 @@ while True:
     print("Floor : ", hamster.left_floor(), hamster.right_floor())
 #    continue
 
-    if hamster.right_floor() < 70:
-        hamster.wheels( 0, 50 )
-#    elif hamster.left_floor() < 70:
-#        hamster.wheels( 0, 40 )
+    if hamster.right_floor() < 35 or hamster.left_floor() < 35:
+        if drive_mode == DriveMode.STRIGHT:
+            if hamster.right_floor() < hamster.left_floor():
+                drive_mode == DriveMode.TURN_LEFT
+            elif hamster.right_floor() > hamster.left_floor():
+                drive_mode == DriveMode.TURN_RIGHT
     else:
-        hamster.wheels( 25, 25 )
+        if drive_mode != DriveMode.STRIGHT:
+            drive_mode = DriveMode.STRIGHT
+
+    if drive_mode == DriveMode.STRIGHT:
+        hamster.wheels(20,20)
+    elif drive_mode == DriveMode.TURN_LEFT:
+        hamster.wheels(0, 40)
+    else:
+        hamster.wheels(40,0)
