@@ -9,7 +9,7 @@ class SoundMode(Enum):
 hamster = HamsterS()
 
 proximity_threshold = 15
-target_proximity = 80
+target_proximity = 40
 weight = 2
 last_mode = SoundMode.NULL
 
@@ -42,10 +42,10 @@ def sound(mode):
 
 while True:
     # 근접 센서 값이 너무 작으면 그냥 정지한다.
-    if hamster.left_proximity() < proximity_threshold and hamster.right_proximity() < proximity_threshold:
-        hamster.stop()
-        sound(SoundMode.OBJ_LOST)
-        continue
+#    if hamster.left_proximity() < proximity_threshold and hamster.right_proximity() < proximity_threshold:
+#        hamster.stop()
+#        sound(SoundMode.OBJ_LOST)
+#        continue
 
     # 너무 어두워지면 그냥 정지한다.
     if hamster.light() < 10:
@@ -54,4 +54,4 @@ while True:
         continue
 
     sound(SoundMode.NULL)
-    hamster.wheels( ( target_proximity - hamster.left_proximity() ) * weight, ( target_proximity - hamster.right_proximity() ) * weight )
+    hamster.wheels( 50 + target_proximity - hamster.right_proximity(), 50 )
