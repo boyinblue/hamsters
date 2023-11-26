@@ -43,7 +43,8 @@ def sound(mode):
 while True:
     # 근접 센서 값이 너무 작으면 그냥 정지한다.
     if hamster.left_proximity() < proximity_threshold and hamster.right_proximity() < proximity_threshold:
-        hamster.stop()
+#        hamster.stop()
+        hamster.move_forward(5, 100)
         sound(SoundMode.OBJ_LOST)
         continue
 
